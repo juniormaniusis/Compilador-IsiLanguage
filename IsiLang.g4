@@ -49,7 +49,7 @@ grammar IsiLang;
 	}
 }
 
-prog	: 'programa' decl bloco  'fimprog;'
+prog	: 'programa' decl bloco  'fimprog.'
            {  program.setVarTable(symbolTable);
            	  program.setComandos(stack.pop());
            	 
@@ -198,13 +198,13 @@ AP	: '('
 FP	: ')'
 	;
 	
-SC	: ';'
+SC	: '.'
 	;
 	
 OP	: '+' | '-' | '*' | '/'
 	;
 	
-ATTR : '='
+ATTR : ':='
 	 ;
 	 
 VIR  : ','
