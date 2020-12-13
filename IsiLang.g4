@@ -44,11 +44,13 @@ grammar IsiLang;
 		}
 	}
 
-	public void exibeWarnings() {
-		for (IsiSymbol is: symbolTable.getNotUsedSymbols()) {
-			System.out.println("Simbolo " + is.getName() + "declarado mas nao utilizado");
+	public ArrayList<String> getWarnings() {
+			ArrayList<String> wList = new ArrayList<String>();
+			for (IsiSymbol is: symbolTable.getNotUsedSymbols()) {
+				wList.add("Simbolo " + is.getName() + " declarado mas nunca utilizado");
+			}
+			return wList;
 		}
-	}
 	
 	public void generateCode(){
 		program.generateTarget();

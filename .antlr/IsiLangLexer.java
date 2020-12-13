@@ -1,4 +1,4 @@
-// Generated from /Users/loweer/git/IsiLanguageEmbriao2/IsiLang.g4 by ANTLR 4.8
+// Generated from /home/loweer/git/IsiLanguageEmbriao/IsiLang.g4 by ANTLR 4.8
 
 	import br.com.professorisidro.isilanguage.datastructures.IsiSymbol;
 	import br.com.professorisidro.isilanguage.datastructures.IsiVariable;
@@ -128,11 +128,13 @@ public class IsiLangLexer extends Lexer {
 			}
 		}
 
-		public void exibeWarnings() {
-			for (IsiSymbol is: symbolTable.getNotUsedSymbols()) {
-				System.out.println("Simbolo " + is.getName() + "declarado mas nao utilizado");
+		public ArrayList<String> getWarnings() {
+				ArrayList<String> wList = new ArrayList<String>();
+				for (IsiSymbol is: symbolTable.getNotUsedSymbols()) {
+					wList.add("Simbolo " + is.getName() + " declarado mas nunca utilizado");
+				}
+				return wList;
 			}
-		}
 		
 		public void generateCode(){
 			program.generateTarget();

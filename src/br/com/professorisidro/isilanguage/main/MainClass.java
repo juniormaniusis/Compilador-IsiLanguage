@@ -1,5 +1,7 @@
 package br.com.professorisidro.isilanguage.main;
 
+import java.util.ArrayList;
+
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -30,11 +32,17 @@ public class MainClass {
 			
 			parser.prog();
 
-			System.out.println("***\t WARNINGS\t ***");
+			ArrayList<String> warnings = parser.getWarnings();
+			if (warnings.size() > 0) {
+				System.out.println(repeatChar('#', 34) + " WARNINGS  " + repeatChar('#', 34));
+				for (String warning : warnings) {
+					MessagesHelper.printYellow(warning);
+				}
+				System.out.println(repeatChar('#', 80));
+			}
 			
-			parser.exibeWarnings();
-
-			System.out.println("Compilation Successful");
+			MessagesHelper.printGreen("Compilation Successful");
+			
 			
 			parser.exibeComandos();
 			
@@ -49,6 +57,14 @@ public class MainClass {
 			System.err.println("ERROR "+ex.getMessage());
 		}
 		
+	}
+
+	private static String repeatChar(char c, int times) {
+		String s = "";
+		for (int i = 0; i < times; i++) {
+			s += c;
+		}
+		return s;
 	}
 
 }
