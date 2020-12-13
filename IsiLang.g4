@@ -179,6 +179,7 @@ cmdattrib	:  ID { verificaID(_input.LT(-1).getText());
 				|
 				(
 					STRING {
+						System.out.println("Detectei uma string");
 						String str = _input.LT(-1).getText();
 						assertStringType(_exprID);
 						CommandAtribuicao cmd = new CommandAtribuicao(_exprID, str);
@@ -295,18 +296,26 @@ cmdselecao  :  'se' AP {
                    )?
             ;
 			
-expr		:	expr 
-				OPSUM { _exprContent += _input.LT(-1).getText();}
-				termo
-			|	expr
-			 	OPSUB { _exprContent += _input.LT(-1).getText();}
-				termo
-			| 	termo
-			;
+// expr		:	expr 
+// 				OPSUM { _exprContent += _input.LT(-1).getText();}
+// 				termo
+// 			|	expr
+// 			 	OPSUB { _exprContent += _input.LT(-1).getText();}
+// 				termo
+// 			| 	termo
+// 			;
 
-termo		: termo OPMUL { _exprContent += _input.LT(-1).getText();} fator
-			| termo OPDIV { _exprContent += _input.LT(-1).getText();} fator
-			| fator;
+// termo		: termo OPMUL { _exprContent += _input.LT(-1).getText();} fator
+// 			| termo OPDIV { _exprContent += _input.LT(-1).getText();} fator
+// 			| fator;
+
+expr : termo expr_;
+termo : fator termo_;
+expr_ : (OPSUM termo expr_ | OPSUB termo expr_)?;
+termo_ : (OPMUL fator termo_ | OPDIV fator termo_)?;
+
+
+
 
 			
 OPMUL 		: '*';			
