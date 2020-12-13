@@ -151,11 +151,26 @@ cmdattrib	:  ID { verificaID(_input.LT(-1).getText());
                }
 			;
 			
-			
-cmdselecao  :  'se' AP
-                    ID    { _exprDecision = _input.LT(-1).getText(); }
-                    OPREL { _exprDecision += _input.LT(-1).getText(); }
-                    (ID | NUMBER) {_exprDecision += _input.LT(-1).getText(); }
+
+cmdselecao  :  'se' AP {
+							_exprContent = "";
+					}
+					expr {
+							System.out.println("resultado da expressao 1");
+							_exprDecision = _exprContent;
+							System.out.println(_exprDecision);
+					}
+					OPREL { 
+							String x = _input.LT(-1).getText();
+							System.out.println("Expressao até agora ::=  "+x);
+							_exprDecision += x;
+							_exprContent = "";
+					}
+					expr {
+							System.out.println("resultado da expressao");
+							_exprDecision += _exprContent;
+							System.out.println(_exprDecision);
+					}
                     FP 
                     ACH 
                     { curThread = new ArrayList<AbstractCommand>(); 
