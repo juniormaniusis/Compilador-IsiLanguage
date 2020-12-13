@@ -1,4 +1,5 @@
-// Generated from /home/loweer/git/IsiLanguageEmbriao/IsiLang.g4 by ANTLR 4.8
+// Generated from IsiLang.g4 by ANTLR 4.7.1
+package br.com.professorisidro.isilanguage.parser;
 
 	import br.com.professorisidro.isilanguage.datastructures.IsiSymbol;
 	import br.com.professorisidro.isilanguage.datastructures.IsiVariable;
@@ -21,7 +22,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class IsiLangLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -39,31 +40,22 @@ public class IsiLangLexer extends Lexer {
 		"DEFAULT_MODE"
 	};
 
-	private static String[] makeRuleNames() {
-		return new String[] {
-			"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
-			"T__9", "STRING", "OPMUL", "OPDIV", "OPSUM", "OPSUB", "AP", "FP", "SC", 
-			"OP", "ATTR", "VIR", "ACH", "FCH", "OPREL", "ID", "NUMBER", "WS"
-		};
-	}
-	public static final String[] ruleNames = makeRuleNames();
+	public static final String[] ruleNames = {
+		"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
+		"T__9", "STRING", "OPMUL", "OPDIV", "OPSUM", "OPSUB", "AP", "FP", "SC", 
+		"OP", "ATTR", "VIR", "ACH", "FCH", "OPREL", "ID", "NUMBER", "WS"
+	};
 
-	private static String[] makeLiteralNames() {
-		return new String[] {
-			null, "'programa'", "'fimprog.'", "'numero'", "'texto'", "'leia'", "'escreva'", 
-			"'para'", "'enquanto'", "'se'", "'senao'", null, "'*'", "'/'", "'+'", 
-			"'-'", "'('", "')'", "'.'", null, "':='", "','", "'{'", "'}'"
-		};
-	}
-	private static final String[] _LITERAL_NAMES = makeLiteralNames();
-	private static String[] makeSymbolicNames() {
-		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, null, "STRING", 
-			"OPMUL", "OPDIV", "OPSUM", "OPSUB", "AP", "FP", "SC", "OP", "ATTR", "VIR", 
-			"ACH", "FCH", "OPREL", "ID", "NUMBER", "WS"
-		};
-	}
-	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+	private static final String[] _LITERAL_NAMES = {
+		null, "'programa'", "'fimprog.'", "'numero'", "'texto'", "'leia'", "'escreva'", 
+		"'para'", "'enquanto'", "'se'", "'senao'", null, "'*'", "'/'", "'+'", 
+		"'-'", "'('", "')'", "'.'", null, "':='", "','", "'{'", "'}'"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, null, null, null, null, null, null, null, null, null, null, "STRING", 
+		"OPMUL", "OPDIV", "OPSUM", "OPSUB", "AP", "FP", "SC", "OP", "ATTR", "VIR", 
+		"ACH", "FCH", "OPREL", "ID", "NUMBER", "WS"
+	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -132,10 +124,10 @@ public class IsiLangLexer extends Lexer {
 			return symbolTable.getTypeById(id);
 		}
 
-		public void checkTypeAttrib(String leftType, String id, String expression) { 
-			for (String type : expressionTypeList) {
+		public void checkType(String leftType) { 
+			for (String type in expressionTypeList) {
 				if (leftType != type) {
-					throw new IsiSemanticException("Tipos incompatíveis entre " + leftType + " e " + type + "\n\t na sentenca " + id+" := " + expression);
+					throw new IsiSemanticException("Tipos incompatíveis entre " + leftType + " e " + type);
 				}
 			}
 		}

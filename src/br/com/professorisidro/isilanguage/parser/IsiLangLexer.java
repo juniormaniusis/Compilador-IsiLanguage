@@ -103,6 +103,8 @@ public class IsiLangLexer extends Lexer {
 		private String _writeID;
 		private String _writeText;
 		private String _exprID;
+		private String _leftType;
+		private ArrayList<String> expressionTypeList = new ArrayList<String>();
 		private String _exprContent;
 		private ArrayList<AbstractCommand> listaTrue;
 		private ArrayList<AbstractCommand> innerCommands;
@@ -116,6 +118,18 @@ public class IsiLangLexer extends Lexer {
 		}
 		public void assertStringType(String id) {
 			symbolTable.assertStringType(id);
+		}
+		
+		public String getTypeById(String id) {
+			return symbolTable.getTypeById(id);
+		}
+
+		public void checkTypeAttrib(String leftType, String id, String expression) { 
+			for (String type : expressionTypeList) {
+				if (leftType != type) {
+					throw new IsiSemanticException("Tipos incompatíveis entre " + leftType + " e " + type + "\n\t na sentenca " + id+" := " + expression);
+				}
+			}
 		}
 		
 		public void exibeComandos(){
@@ -137,6 +151,7 @@ public class IsiLangLexer extends Lexer {
 		}
 		public void resetExpr() {
 			_exprContent = "";
+			expressionTypeList = new ArrayList<String>();
 		}
 
 

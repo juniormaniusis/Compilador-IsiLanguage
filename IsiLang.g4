@@ -26,6 +26,8 @@ grammar IsiLang;
 	private String _writeID;
 	private String _writeText;
 	private String _exprID;
+	private String _leftType;
+	private ArrayList<String> expressionTypeList = new ArrayList<String>();
 	private String _exprContent;
 	private ArrayList<AbstractCommand> listaTrue;
 	private ArrayList<AbstractCommand> innerCommands;
@@ -39,6 +41,18 @@ grammar IsiLang;
 	}
 	public void assertStringType(String id) {
 		symbolTable.assertStringType(id);
+	}
+	
+	public String getTypeById(String id) {
+		return symbolTable.getTypeById(id);
+	}
+
+	public void checkTypeAttrib(String leftType, String id, String expression) { 
+		for (String type : expressionTypeList) {
+			if (leftType != type) {
+				throw new IsiSemanticException("Tipos incompatíveis entre " + leftType + " e " + type + "\n\t na sentenca " + id+" := " + expression);
+			}
+		}
 	}
 	
 	public void exibeComandos(){
@@ -60,6 +74,7 @@ grammar IsiLang;
 	}
 	public void resetExpr() {
 		_exprContent = "";
+		expressionTypeList = new ArrayList<String>();
 	}
 }
 
@@ -145,7 +160,6 @@ cmdescrita	: 'escreva'
 				 | 
 				 STRING {
 					  _writeText = _input.LT(-1).getText();
-					  System.out.println("escreva a str = "+ _writeText);
 				 }
 				)
                  FP 
@@ -156,30 +170,37 @@ cmdescrita	: 'escreva'
 				  if (!_writeID.isBlank()) {
 					cmd = new CommandEscrita(_writeID);
 				  } else {
-					  System.out.println("criando o comando escrecva" + _writeText);
+					  
 					  cmd = new CommandEscrita(_writeText, true);
 				  }
                	  stack.peek().add(cmd);
                }
 			;
 			
-cmdattrib	:  ID { verificaID(_input.LT(-1).getText());
-                    _exprID = _input.LT(-1).getText();
+cmdattrib	:  ID { String id = _input.LT(-1).getText();
+					verificaID(id);
+					_leftType = getTypeById(id);
+                    _exprID = id;
+					resetExpr();
                    } 
-               ATTR { resetExpr(); } 
+               (OPSUM | OPSUB | OPDIV | OPMUL)? {
+				   	String operador = _input.LT(-1).getText();
+					_exprContent += _exprID + operador;
+			   	}
+			   ATTR 
                ((
 					expr 
 					SC
 					{
 						CommandAtribuicao cmd = new CommandAtribuicao(_exprID, _exprContent);
+						checkTypeAttrib(_leftType,_exprID,  _exprContent);
 						stack.peek().add(cmd);
 					}
-				
 				)
 				|
 				(
 					STRING {
-						System.out.println("Detectei uma string");
+						
 						String str = _input.LT(-1).getText();
 						assertStringType(_exprID);
 						CommandAtribuicao cmd = new CommandAtribuicao(_exprID, str);
@@ -234,7 +255,6 @@ cmdenquanto  :  'enquanto' AP {
                     FCH 
                     {
                        innerCommands = stack.pop();	
-					   System.out.println(innerCommands);
 					   CommandRepita cmdRepita = new CommandRepita(stackExprDecision.pop(), innerCommands);
                    	   stack.peek().add(cmdRepita);
                     } 
@@ -311,8 +331,16 @@ cmdselecao  :  'se' AP {
 
 expr : termo expr_;
 termo : fator termo_;
-expr_ : (OPSUM termo expr_ | OPSUB termo expr_)?;
-termo_ : (OPMUL fator termo_ | OPDIV fator termo_)?;
+expr_ : (
+			OPSUM {_exprContent += '+';} termo expr_ 
+		|	OPSUB {_exprContent += '-';} termo expr_
+		)?
+		;
+
+termo_ : (
+			OPMUL {_exprContent += '*';} fator termo_ 
+		| 	OPDIV {_exprContent += '/';} fator termo_
+		)?;
 
 
 
@@ -323,8 +351,16 @@ OPDIV 		: '/';
 OPSUM		: '+';
 OPSUB		: '-';
 
-fator		:	NUMBER { _exprContent += _input.LT(-1).getText();}
-			|	ID { _exprContent += _input.LT(-1).getText();}
+fator		:	NUMBER { 
+					_exprContent += _input.LT(-1).getText();
+					expressionTypeList.add("NUMBER");
+			}
+			|	ID { 	String id = _input.LT(-1).getText();
+						verificaID(id);
+						String type = getTypeById(id);
+						_exprContent += id; 
+						expressionTypeList.add(type);
+				   }
 			|	AP { _exprContent += _input.LT(-1).getText();}
 				expr 
 				FP { _exprContent += _input.LT(-1).getText();}

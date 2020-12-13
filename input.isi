@@ -39,8 +39,11 @@ programa
   
    a := 25.6.
    t1 := "oi".
-   b := t1.
-  
+   
+   a +:= b.
+   a -:= b.
+   a *:= b.
+   a /:= b.
   se (t1 == t1) {
   	escreva("carlos").
   } 

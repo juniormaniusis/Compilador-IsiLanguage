@@ -46,6 +46,13 @@ public class IsiSymbolTable {
 		}
 		throw new IsiSemanticException("Variável " + variable.getName() + " é do tipo " + variable.getTypeText() + " não pode ser receber um texto");
 	}
+
+	public String getTypeById(String id) {
+		IsiVariable variable = (IsiVariable) this.get(id);
+		if (variable.getType() == IsiVariable.TEXT) {
+			return "TEXT";
+		} else return "NUMBER";
+	}
 	
 	public ArrayList<IsiSymbol> getAll(){
 		ArrayList<IsiSymbol> lista = new ArrayList<IsiSymbol>();
