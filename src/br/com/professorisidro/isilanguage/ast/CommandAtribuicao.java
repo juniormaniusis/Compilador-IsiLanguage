@@ -13,7 +13,6 @@ public class CommandAtribuicao extends AbstractCommand{
 	}
 	@Override
 	public String generateJavaCode() {
-		// TODO Auto-generated method stub
 		return id + " = "+expr+";";
 	}
 	@Override

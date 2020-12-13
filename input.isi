@@ -1,13 +1,14 @@
 programa
 
-  numero a, b.
-  texto  t1.
+  numero a, b, numc.
+  texto  t1, k, j.
 
   leia(a).
   leia(b).
   
   a := 1 + 2 * 3 / b.
   
+  numc := j.
 
   se ( a > b ) {
      escreva (a).
@@ -16,6 +17,9 @@ programa
      escreva (b).
   }
   
+
+  leia(k).
   
+   b := a.
 
 fimprog.

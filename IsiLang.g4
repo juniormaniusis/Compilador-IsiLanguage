@@ -43,6 +43,12 @@ grammar IsiLang;
 			System.out.println(c);
 		}
 	}
+
+	public void exibeWarnings() {
+		for (IsiSymbol is: symbolTable.getNotUsedSymbols()) {
+			System.out.println("Simbolo " + is.getName() + "declarado mas nao utilizado");
+		}
+	}
 	
 	public void generateCode(){
 		program.generateTarget();
@@ -175,23 +181,32 @@ cmdselecao  :  'se' AP
                    )?
             ;
 			
-expr		:  termo ( 
-	             OP  { _exprContent += _input.LT(-1).getText();}
-	            termo
-	            )*
+expr		:	expr 
+				OPSUM { _exprContent += _input.LT(-1).getText();}
+				termo
+			|	expr
+			 	OPSUB { _exprContent += _input.LT(-1).getText();}
+				termo
+			| 	termo
 			;
+
+termo		: termo OPMUL { _exprContent += _input.LT(-1).getText();} fator
+			| termo OPDIV { _exprContent += _input.LT(-1).getText();} fator
+			| fator;
+
 			
-termo		: ID { verificaID(_input.LT(-1).getText());
-	               _exprContent += _input.LT(-1).getText();
-                 } 
-            | 
-              NUMBER
-              {
-              	_exprContent += _input.LT(-1).getText();
-              }
+OPMUL 		: '*';			
+OPDIV 		: '/';
+OPSUM		: '+';
+OPSUB		: '-';
+
+fator		:	NUMBER { _exprContent += _input.LT(-1).getText();}
+			|	ID { _exprContent += _input.LT(-1).getText();}
+			|	AP { _exprContent += _input.LT(-1).getText();}
+				expr 
+				FP { _exprContent += _input.LT(-1).getText();}
 			;
-			
-	
+
 AP	: '('
 	;
 	

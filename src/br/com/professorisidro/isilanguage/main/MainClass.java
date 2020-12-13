@@ -29,7 +29,11 @@ public class MainClass {
 			parser = new IsiLangParser(tokenStream);
 			
 			parser.prog();
+
+			System.out.println("***\t WARNINGS\t ***");
 			
+			parser.exibeWarnings();
+
 			System.out.println("Compilation Successful");
 			
 			parser.exibeComandos();
