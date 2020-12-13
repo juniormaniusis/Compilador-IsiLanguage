@@ -18,15 +18,15 @@ public class CommandRepita extends AbstractCommand {
 		StringBuilder str = new StringBuilder();
 		str.append("while ("+condition+") {\n");
 		for (AbstractCommand cmd: innerCommands) {
-			str.append(cmd.generateJavaCode());
+			str.append("\t").append(cmd.generateJavaCode());
 		}
-		str.append("}\n");
+		str.append("\n}\n");
 		return str.toString();
 	}
 	
 	@Override
 	public String toString() {
-		return "CommandDecisao [condition=" + condition + ", innerCommands=" + innerCommands + "]";
+		return "CommandRepita [condition=" + condition + ", innerCommands=" + innerCommands + "]";
 	}
 	
 	

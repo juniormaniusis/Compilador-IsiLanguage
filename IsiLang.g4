@@ -7,10 +7,7 @@ grammar IsiLang;
 	import br.com.professorisidro.isilanguage.exceptions.IsiSemanticException;
 	import br.com.professorisidro.isilanguage.ast.IsiProgram;
 	import br.com.professorisidro.isilanguage.ast.AbstractCommand;
-	import br.com.professorisidro.isilanguage.ast.CommandLeitura;
-	import br.com.professorisidro.isilanguage.ast.CommandEscrita;
-	import br.com.professorisidro.isilanguage.ast.CommandAtribuicao;
-	import br.com.professorisidro.isilanguage.ast.CommandDecisao;
+	import br.com.professorisidro.isilanguage.ast.*;
 	import java.util.ArrayList;
 	import java.util.Stack;
 }
@@ -24,13 +21,15 @@ grammar IsiLang;
 	private IsiProgram program = new IsiProgram();
 	private ArrayList<AbstractCommand> curThread;
 	private Stack<ArrayList<AbstractCommand>> stack = new Stack<ArrayList<AbstractCommand>>();
+	private Stack<String> stackExprDecision = new Stack<String>();
 	private String _readID;
 	private String _writeID;
 	private String _exprID;
 	private String _exprContent;
-	private String _exprDecision;
 	private ArrayList<AbstractCommand> listaTrue;
+	private ArrayList<AbstractCommand> innerCommands;
 	private ArrayList<AbstractCommand> listaFalse;
+	private ArrayList<AbstractCommand> EMPTY_COMMAND_LIST = new ArrayList<AbstractCommand>();
 	
 	public void verificaID(String id){
 		if (!symbolTable.exists(id)){
@@ -55,7 +54,7 @@ grammar IsiLang;
 	public void generateCode(){
 		program.generateTarget();
 	}
-	private resetExpr() {
+	public void resetExpr() {
 		_exprContent = "";
 	}
 }
@@ -113,6 +112,7 @@ cmd		:  cmdleitura
  		|  cmdescrita 
  		|  cmdattrib
  		|  cmdselecao  
+		|  cmdenquanto
 		;
 		
 cmdleitura	: 'leia' AP
@@ -145,7 +145,7 @@ cmdescrita	: 'escreva'
 cmdattrib	:  ID { verificaID(_input.LT(-1).getText());
                     _exprID = _input.LT(-1).getText();
                    } 
-               ATTR { resetExpr() } 
+               ATTR { resetExpr(); } 
                expr 
                SC
                {
@@ -154,36 +154,74 @@ cmdattrib	:  ID { verificaID(_input.LT(-1).getText());
                }
 			;
 			
-
-cmdselecao  :  'se' AP {
-							resetExpr()
+cmdenquanto  :  'enquanto' AP {
+							resetExpr();
 					}
 					expr {
-							System.out.println("resultado da expressao 1");
-							_exprDecision = _exprContent;
-							System.out.println(_exprDecision);
+							stackExprDecision.push(_exprContent);
 					}
 					OPREL { 
-							String x = _input.LT(-1).getText();
-							System.out.println("Expressao até agora ::=  "+x);
-							_exprDecision += x;
-							resetExpr()
+							String op = _input.LT(-1).getText();
+							String atual = stackExprDecision.pop();
+							String novo = atual + op;
+							stackExprDecision.push(novo);
+							resetExpr();
 					}
 					expr {
-							System.out.println("resultado da expressao");
-							_exprDecision += _exprContent;
-							System.out.println(_exprDecision);
+							atual = stackExprDecision.pop();
+							novo = atual + _exprContent;
+							stackExprDecision.push(novo);
 					}
-                    FP 
-                    ACH 
-                    { curThread = new ArrayList<AbstractCommand>(); 
-                      stack.push(curThread);
+                    FP
+					ACH { 
+							curThread = new ArrayList<AbstractCommand>(); 
+							stack.push(curThread);
+                    }
+                    (cmd)+ 
+                    FCH 
+                    {
+                       innerCommands = stack.pop();	
+					   System.out.println(innerCommands);
+					   CommandRepita cmdRepita = new CommandRepita(stackExprDecision.pop(), innerCommands);
+                   	   stack.peek().add(cmdRepita);
+                    } 
+					;
+
+cmdselecao  :  'se' AP {
+							resetExpr();
+					}
+					expr {
+							stackExprDecision.push(_exprContent);
+					}
+					OPREL { 
+							String op = _input.LT(-1).getText();
+							String atual = stackExprDecision.pop();
+							String novo = atual + op;
+							stackExprDecision.push(novo);
+							resetExpr();
+					}
+					expr {
+							atual = stackExprDecision.pop();
+							novo = atual + _exprContent;
+							stackExprDecision.push(novo);
+							resetExpr();
+					}
+                    FP
+					ACH { 
+						// cria uma lista de comandos
+						curThread = new ArrayList<AbstractCommand>(); 
+                      	stack.push(curThread);
                     }
                     (cmd)+ 
                     
                     FCH 
                     {
+						// pega a lista de comandos
                        listaTrue = stack.pop();	
+					   // cria um comando de decisao com essa lista de comandos
+					   String expreDecision = stackExprDecision.pop();
+					   CommandDecisao cmdSE = new CommandDecisao(expreDecision, listaTrue, EMPTY_COMMAND_LIST);
+                   	   stack.peek().add(cmdSE);
                     } 
                    ('senao' 
                    	 ACH
@@ -195,8 +233,12 @@ cmdselecao  :  'se' AP {
                    	FCH
                    	{
                    		listaFalse = stack.pop();
-                   		CommandDecisao cmd = new CommandDecisao(_exprDecision, listaTrue, listaFalse);
-                   		stack.peek().add(cmd);
+						
+						// joga fora o comando if sem o listaFalse
+						int index = stack.peek().size() - 1; 
+						stack.peek().remove(index); 
+                   		CommandDecisao cmdSESENAO = new CommandDecisao(expreDecision, listaTrue, listaFalse);
+                   		stack.peek().add(cmdSESENAO);
                    	}
                    )?
             ;
@@ -233,6 +275,7 @@ AP	: '('
 FP	: ')'
 	;
 	
+
 SC	: '.'
 	;
 	

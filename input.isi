@@ -9,14 +9,29 @@ programa
   a := 1 + 2 * 3 / b.
   
 
-  se (((a+1) + 2)>b) {
+  se (((a+1) + 2)>b){
      escreva (a).
-  }
-  senao {
      escreva (b).
+  } senao {
+     escreva(b).
   }
   
+   se (a < b) {
+      escreva(t1).
+   }
 
-   b := a.
+   enquanto (a != 3) {
+      b := a + 2.
+      se (b < 30) {
+         a := 3.
+         se (t1 == 22) {
+            b := b.
+         } senao {
+            b := b + 199.
+         }
+      }
+   }
+  
+   a := 25.
 
 fimprog.

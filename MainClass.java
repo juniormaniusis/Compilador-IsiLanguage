@@ -9,9 +9,24 @@ a= _key.nextDouble();
 b= _key.nextDouble();
 a = 1+2*3/b;
 if (((a+1)+2)>b) {
-	System.out.println(a);
+	System.out.println(a);	System.out.println(b);
 } else {
-System.out.println(b);}
+	System.out.println(b);
+}
 
-b = a;
+if (a<b) {
+	System.out.println(t1);
+}
+while (a!=3) {
+	b = a+2;	if (b<30) {
+	a = 3;	if (t1==22) {
+	b = b;
+} else {
+	b = b+199;
+}
+
+}
+}
+
+a = 25;
   }}
