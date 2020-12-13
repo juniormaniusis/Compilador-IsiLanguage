@@ -162,10 +162,8 @@ cmdattrib	:  ID { verificaID(_input.LT(-1).getText());
 				|
 				(
 					STRING {
-						System.out.println("Detectei uma string");
 						String str = _input.LT(-1).getText();
-						System.out.println(str);
-						(_exprID);
+						assertStringType(_exprID);
 						CommandAtribuicao cmd = new CommandAtribuicao(_exprID, str);
 						stack.peek().add(cmd);
 					}
