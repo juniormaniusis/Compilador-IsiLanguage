@@ -44,7 +44,7 @@ public class IsiSymbolTable {
 		if (variable.getType() == IsiVariable.TEXT) {
 			return;
 		}
-		throw new IsiSemanticException("Variável " + variable.getName() + " é do tipo " + variable.getTypeText() + " não pode ser atribuído ao tipo texto");
+		throw new IsiSemanticException("Variável " + variable.getName() + " é do tipo " + variable.getTypeText() + " não pode ser receber um texto");
 	}
 	
 	public ArrayList<IsiSymbol> getAll(){

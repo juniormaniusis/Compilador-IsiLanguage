@@ -35,7 +35,11 @@ if (t1==22) {
 }
 }
 
-a = 25;
+a = 25.6;
 t1 = "oi";
 b = t1;
+
+if (t1==t1) {
+	System.out.println(""carlos"");
+}
   }}

@@ -12,6 +12,8 @@ programa
      leia(a).
   }
 
+  
+
   se (((a+1) + 2)>b){
      escreva (a).
      escreva (b).
@@ -35,9 +37,12 @@ programa
       }
    }
   
-   a := 25.
+   a := 25.6.
    t1 := "oi".
    b := t1.
-   b := "carlos".
+  
+  se (t1 == t1) {
+  	escreva("carlos").
+  } 
 
 fimprog.

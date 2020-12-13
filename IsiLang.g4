@@ -24,6 +24,7 @@ grammar IsiLang;
 	private Stack<String> stackExprDecision = new Stack<String>();
 	private String _readID;
 	private String _writeID;
+	private String _writeText;
 	private String _exprID;
 	private String _exprContent;
 	private ArrayList<AbstractCommand> listaTrue;
@@ -134,14 +135,30 @@ cmdleitura	: 'leia' AP
 			;
 			
 cmdescrita	: 'escreva' 
-                 AP 
-                 ID { verificaID(_input.LT(-1).getText());
+                 AP {
+					  _writeID = "";
+					  _writeText = "";
+				 }
+                 (ID { verificaID(_input.LT(-1).getText());
 	                  _writeID = _input.LT(-1).getText();
-                     } 
+                     }
+				 | 
+				 STRING {
+					  _writeText = _input.LT(-1).getText();
+					  System.out.println("escreva a str = "+ _writeText);
+				 }
+				)
                  FP 
                  SC
                {
-               	  CommandEscrita cmd = new CommandEscrita(_writeID);
+					  
+				  CommandEscrita cmd;
+				  if (!_writeID.isBlank()) {
+					cmd = new CommandEscrita(_writeID);
+				  } else {
+					  System.out.println("criando o comando escrecva" + _writeText);
+					  cmd = new CommandEscrita(_writeText, true);
+				  }
                	  stack.peek().add(cmd);
                }
 			;
