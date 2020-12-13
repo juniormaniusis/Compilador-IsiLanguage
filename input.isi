@@ -9,7 +9,7 @@ programa
   a := 1 + 2 * 3 / b.
   
 
-  se ((a+1)>b) {
+  se (((a+1) + 2)>b) {
      escreva (a).
   }
   senao {
