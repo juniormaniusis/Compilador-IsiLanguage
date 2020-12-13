@@ -18,6 +18,16 @@ public class IsiVariable extends IsiSymbol {
 		return type;
 	}
 
+	public String getTypeText() {
+		if (type == NUMBER)  {
+			return "number";
+		}
+		if (type == TEXT)  {
+			return "text";
+		}
+		throw new RuntimeException("variavel de tipo não conhecido.");
+	}
+
 	public void setType(int type) {
 		this.type = type;
 	}

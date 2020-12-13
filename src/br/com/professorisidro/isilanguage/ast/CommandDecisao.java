@@ -16,7 +16,7 @@ public class CommandDecisao extends AbstractCommand {
 	@Override
 	public String generateJavaCode() {
 		StringBuilder str = new StringBuilder();
-		str.append("if ("+condition+") {\n");
+		str.append("\nif ("+condition+") {\n");
 		for (AbstractCommand cmd: listaTrue) {
 			str.append("\t" + cmd.generateJavaCode());
 		}

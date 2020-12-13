@@ -36,6 +36,9 @@ grammar IsiLang;
 			throw new IsiSemanticException("Symbol "+id+" not declared");
 		}
 	}
+	public void assertStringType(String id) {
+		symbolTable.assertStringType(id);
+	}
 	
 	public void exibeComandos(){
 		for (AbstractCommand c: program.getComandos()){
@@ -113,6 +116,7 @@ cmd		:  cmdleitura
  		|  cmdattrib
  		|  cmdselecao  
 		|  cmdenquanto
+		|  cmdpara
 		;
 		
 cmdleitura	: 'leia' AP
@@ -146,14 +150,47 @@ cmdattrib	:  ID { verificaID(_input.LT(-1).getText());
                     _exprID = _input.LT(-1).getText();
                    } 
                ATTR { resetExpr(); } 
-               expr 
-               SC
-               {
-               	 CommandAtribuicao cmd = new CommandAtribuicao(_exprID, _exprContent);
-               	 stack.peek().add(cmd);
-               }
+               ((
+					expr 
+					SC
+					{
+						CommandAtribuicao cmd = new CommandAtribuicao(_exprID, _exprContent);
+						stack.peek().add(cmd);
+					}
+				
+				)
+				|
+				(
+					STRING {
+						System.out.println("Detectei uma string");
+						String str = _input.LT(-1).getText();
+						System.out.println(str);
+						(_exprID);
+						CommandAtribuicao cmd = new CommandAtribuicao(_exprID, str);
+						stack.peek().add(cmd);
+					}
+					SC					
+				))
 			;
-			
+
+STRING : '"' ( '\\"' | . )*? '"' ;
+
+
+cmdpara		 : 'para' AP 
+					  cmdattrib 
+					  
+					  expr
+					  OPREL
+					  expr
+					  SC
+					  
+					  cmd
+					  FP 
+					  ACH 
+					  (cmd)+
+					  FCH
+					  ;
+					  
 cmdenquanto  :  'enquanto' AP {
 							resetExpr();
 					}

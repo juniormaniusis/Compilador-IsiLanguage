@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
+import br.com.professorisidro.isilanguage.exceptions.IsiSemanticException;
+
 import java.util.*;
 public class IsiSymbolTable {
 	
@@ -35,6 +38,14 @@ public class IsiSymbolTable {
 												 .collect(Collectors.toList());
 		return symbolsNotUset;
 	}	
+
+	public void assertStringType(String id) throws IsiSemanticException {
+		IsiVariable variable = (IsiVariable) this.get(id);
+		if (variable.getType() == IsiVariable.TEXT) {
+			return;
+		}
+		throw new IsiSemanticException("Variável " + variable.getName() + " é do tipo " + variable.getTypeText() + " não pode ser atribuído ao tipo texto");
+	}
 	
 	public ArrayList<IsiSymbol> getAll(){
 		ArrayList<IsiSymbol> lista = new ArrayList<IsiSymbol>();

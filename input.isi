@@ -8,6 +8,9 @@ programa
   
   a := 1 + 2 * 3 / b.
   
+  para (a := 0. a < 10. a := a+1.) {
+     leia(a).
+  }
 
   se (((a+1) + 2)>b){
      escreva (a).
@@ -33,5 +36,8 @@ programa
    }
   
    a := 25.
+   t1 := "oi".
+   b := t1.
+   b := "carlos".
 
 fimprog.
