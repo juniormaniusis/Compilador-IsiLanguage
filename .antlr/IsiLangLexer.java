@@ -139,6 +139,9 @@ public class IsiLangLexer extends Lexer {
 		public void generateCode(){
 			program.generateTarget();
 		}
+		private resetExpr() {
+			_exprContent = "";
+		}
 
 
 	public IsiLangLexer(CharStream input) {

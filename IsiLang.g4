@@ -55,6 +55,9 @@ grammar IsiLang;
 	public void generateCode(){
 		program.generateTarget();
 	}
+	private resetExpr() {
+		_exprContent = "";
+	}
 }
 
 prog	: 'programa' decl bloco  'fimprog.'
@@ -142,7 +145,7 @@ cmdescrita	: 'escreva'
 cmdattrib	:  ID { verificaID(_input.LT(-1).getText());
                     _exprID = _input.LT(-1).getText();
                    } 
-               ATTR { _exprContent = ""; } 
+               ATTR { resetExpr() } 
                expr 
                SC
                {
@@ -153,7 +156,7 @@ cmdattrib	:  ID { verificaID(_input.LT(-1).getText());
 			
 
 cmdselecao  :  'se' AP {
-							_exprContent = "";
+							resetExpr()
 					}
 					expr {
 							System.out.println("resultado da expressao 1");
@@ -164,7 +167,7 @@ cmdselecao  :  'se' AP {
 							String x = _input.LT(-1).getText();
 							System.out.println("Expressao até agora ::=  "+x);
 							_exprDecision += x;
-							_exprContent = "";
+							resetExpr()
 					}
 					expr {
 							System.out.println("resultado da expressao");

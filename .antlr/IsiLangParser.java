@@ -146,6 +146,9 @@ public class IsiLangParser extends Parser {
 		public void generateCode(){
 			program.generateTarget();
 		}
+		private resetExpr() {
+			_exprContent = "";
+		}
 
 	public IsiLangParser(TokenStream input) {
 		super(input);
@@ -611,7 +614,7 @@ public class IsiLangParser extends Parser {
 			                   
 			setState(86);
 			match(ATTR);
-			 _exprContent = ""; 
+			 resetExpr() 
 			setState(88);
 			expr(0);
 			setState(89);
@@ -675,7 +678,7 @@ public class IsiLangParser extends Parser {
 			setState(93);
 			match(AP);
 
-										_exprContent = "";
+										resetExpr()
 								
 			setState(95);
 			expr(0);
@@ -690,7 +693,7 @@ public class IsiLangParser extends Parser {
 										String x = _input.LT(-1).getText();
 										System.out.println("Expressao até agora ::=  "+x);
 										_exprDecision += x;
-										_exprContent = "";
+										resetExpr()
 								
 			setState(99);
 			expr(0);
