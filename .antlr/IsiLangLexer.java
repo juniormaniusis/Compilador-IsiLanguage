@@ -112,6 +112,7 @@ public class IsiLangLexer extends Lexer {
 		private String _writeText;
 		private String _exprID;
 		private String _leftType;
+		private String _rightType; 
 		private ArrayList<String> expressionTypeList = new ArrayList<String>();
 		private String _exprContent;
 		private ArrayList<AbstractCommand> listaTrue;
@@ -130,6 +131,16 @@ public class IsiLangLexer extends Lexer {
 		
 		public String getTypeById(String id) {
 			return symbolTable.getTypeById(id);
+		}
+
+		public String verifyTypesAndGetTypeIfValid(ArrayList<String> listTypes, String lado, String expressao) {
+			String primeiroTipo = listTypes.get(0);
+			for (String tipo: listTypes) {
+				if (tipo != primeiroTipo) {
+					throw new IsiSemanticException("Elementos do lado " + lado + "possuem tipos incompativeis\n\t na expressao " + expressao);
+				}
+			}
+			return primeiroTipo;
 		}
 
 		public void checkTypeAttrib(String leftType, String id, String expression) { 

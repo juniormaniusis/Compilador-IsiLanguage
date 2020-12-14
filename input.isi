@@ -25,11 +25,11 @@ programa
       escreva(t1).
    }
 
-   enquanto (a != 3) {
+   enquanto (t1 != 3) {
       b := a + 2.
       se (b < 30) {
          a := 3.
-         se (t1 == 22) {
+         se (t1 == 22) 6{
             b := b.
          } senao {
             b := b + 199.

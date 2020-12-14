@@ -27,6 +27,7 @@ grammar IsiLang;
 	private String _writeText;
 	private String _exprID;
 	private String _leftType;
+	private String _rightType; 
 	private ArrayList<String> expressionTypeList = new ArrayList<String>();
 	private String _exprContent;
 	private ArrayList<AbstractCommand> listaTrue;
@@ -45,6 +46,16 @@ grammar IsiLang;
 	
 	public String getTypeById(String id) {
 		return symbolTable.getTypeById(id);
+	}
+
+	public String verifyTypesAndGetTypeIfValid(ArrayList<String> listTypes, String lado, String expressao) {
+		String primeiroTipo = listTypes.get(0);
+		for (String tipo: listTypes) {
+			if (tipo != primeiroTipo) {
+				throw new IsiSemanticException("Elementos do lado " + lado + "possuem tipos incompativeis\n\t na expressao " + expressao);
+			}
+		}
+		return primeiroTipo;
 	}
 
 	public void checkTypeAttrib(String leftType, String id, String expression) { 
@@ -185,9 +196,7 @@ cmdattrib	:  ID { String id = _input.LT(-1).getText();
                    } 
                (OPSUM | OPSUB | OPDIV | OPMUL)? {
 				   	String operador = _input.LT(-1).getText();
-						System.out.println("LI asdasdas O OPERADOR " + operador);
 					if (operador.equals("+") || operador.equals("-") || operador.equals("*") || operador.equals("/")) {
-						System.out.println("Entrei no IF");
 						_exprContent += _exprID + operador;
 					}
 			   	}
@@ -237,6 +246,7 @@ cmdenquanto  :  'enquanto' AP {
 					}
 					expr {
 							stackExprDecision.push(_exprContent);
+							_leftType = verifyTypesAndGetTypeIfValid(expressionTypeList, "esquerdo", _exprContent);
 					}
 					OPREL { 
 							String op = _input.LT(-1).getText();
@@ -249,8 +259,15 @@ cmdenquanto  :  'enquanto' AP {
 							atual = stackExprDecision.pop();
 							novo = atual + _exprContent;
 							stackExprDecision.push(novo);
+							_rightType = verifyTypesAndGetTypeIfValid(expressionTypeList, "direito", novo);
 					}
-                    FP
+                    FP {
+						if (_rightType != _leftType) { 
+							throw new IsiSemanticException("Tipos não comparáveis");
+						}
+						_rightType = "";
+						_leftType ="";
+					}
 					ACH { 
 							curThread = new ArrayList<AbstractCommand>(); 
 							stack.push(curThread);
