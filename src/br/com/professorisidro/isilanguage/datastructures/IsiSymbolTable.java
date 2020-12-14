@@ -47,11 +47,23 @@ public class IsiSymbolTable {
 		throw new IsiSemanticException("Variável " + variable.getName() + " é do tipo " + variable.getTypeText() + " não pode ser receber um texto");
 	}
 
+	public void sethasValue(String id) {
+		IsiVariable variable = (IsiVariable) this.get(id);
+		variable.sethasValue();
+	}
+
 	public String getTypeById(String id) {
 		IsiVariable variable = (IsiVariable) this.get(id);
 		if (variable.getType() == IsiVariable.TEXT) {
 			return "TEXT";
 		} else return "NUMBER";
+	}
+
+	public void verificaAtribuida(String id) {
+		IsiSymbol  is = this.get(id);
+		if (is.hasValue) {
+			return;
+		} throw new IsiSemanticException("A variavel " + is.getName() + " é utilizada antes de ser atribuida");
 	}
 	
 	public ArrayList<IsiSymbol> getAll(){

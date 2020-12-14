@@ -25,20 +25,20 @@ programa
       escreva(t1).
    }
 
+	t1 := "oi".
    enquanto (t1 != t1 + t1) {
       b := a + 2.
-      se (b < 30) {
-         a := 3.
-         se (t1 == (t1 + t1)) {
-            b := b.
-         } senao {
-            b := b + 199.
-         }
+      enquanto (a > 1) {
+      	se (b == 1) {
+      		enquanto (b == 1) {
+      			escreva(b).
+      		}
+      	}
       }
    }
   
    a := 25.6.
-   t1 := "oi".
+   
    
    a +:= b.
    a -:= b.

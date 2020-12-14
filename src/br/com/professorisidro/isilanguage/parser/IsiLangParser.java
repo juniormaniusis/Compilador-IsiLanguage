@@ -126,12 +126,21 @@ public class IsiLangParser extends Parser {
 				throw new IsiSemanticException("Symbol "+id+" not declared");
 			}
 		}
+
+		public void verificaAtribuida(String id) {
+			symbolTable.verificaAtribuida(id);
+		}
+
 		public void assertStringType(String id) {
 			symbolTable.assertStringType(id);
 		}
 		
 		public String getTypeById(String id) {
 			return symbolTable.getTypeById(id);
+		}
+
+		public void setAtribuida(String id) {
+			symbolTable.sethasValue(id);
 		}
 
 		public String verifyTypesAndGetTypeIfValid(ArrayList<String> listTypes, String lado, String expressao) {
@@ -626,6 +635,7 @@ public class IsiLangParser extends Parser {
 			              	IsiVariable var = (IsiVariable)symbolTable.get(_readID);
 			              	CommandLeitura cmd = new CommandLeitura(_readID, var);
 			              	stack.peek().add(cmd);
+							setAtribuida(_readID);
 			              
 			}
 		}
@@ -806,6 +816,7 @@ public class IsiLangParser extends Parser {
 
 										CommandAtribuicao cmd = new CommandAtribuicao(_exprID, _exprContent);
 										checkTypeAttrib(_leftType,_exprID,  _exprContent);
+										setAtribuida(_exprID);
 										stack.peek().add(cmd);
 									
 				}
@@ -1530,6 +1541,7 @@ public class IsiLangParser extends Parser {
 				match(ID);
 				 	String id = _input.LT(-1).getText();
 										verificaID(id);
+										verificaAtribuida(id);
 										String type = getTypeById(id);
 										_exprContent += id; 
 										expressionTypeList.add(type);

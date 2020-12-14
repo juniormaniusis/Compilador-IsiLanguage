@@ -4,12 +4,13 @@ public abstract class IsiSymbol {
 	
 	protected String name;
 	protected boolean used;
-	
+	protected boolean hasValue;
 	public abstract String generateJavaCode();
 
 	public IsiSymbol(String name) {
 		this.name = name;
 		this.used = false;
+		this.hasValue = false;
 	}
 
 
@@ -20,6 +21,10 @@ public abstract class IsiSymbol {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void sethasValue() {
+		this.hasValue = true;
 	}
 
 	/*

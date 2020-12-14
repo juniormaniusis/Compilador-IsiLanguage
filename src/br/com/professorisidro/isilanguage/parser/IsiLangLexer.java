@@ -117,12 +117,21 @@ public class IsiLangLexer extends Lexer {
 				throw new IsiSemanticException("Symbol "+id+" not declared");
 			}
 		}
+
+		public void verificaAtribuida(String id) {
+			symbolTable.verificaAtribuida(id);
+		}
+
 		public void assertStringType(String id) {
 			symbolTable.assertStringType(id);
 		}
 		
 		public String getTypeById(String id) {
 			return symbolTable.getTypeById(id);
+		}
+
+		public void setAtribuida(String id) {
+			symbolTable.sethasValue(id);
 		}
 
 		public String verifyTypesAndGetTypeIfValid(ArrayList<String> listTypes, String lado, String expressao) {

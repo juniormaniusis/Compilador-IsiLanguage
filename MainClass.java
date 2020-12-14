@@ -22,21 +22,21 @@ if (((a+1)+2)>b) {
 if (a<b) {
 	System.out.println(t1);
 }
+t1 = "oi";
 while (t1!=t1+t1) {
-	b = a+2;	
-if (b<30) {
-	a = 3;	
-if (t1==(t1+t1)) {
-	b = b;
-} else {
-	b = b+199;
+	b = a+2;	while (a>1) {
+	
+if (b==1) {
+	while (b==1) {
+	System.out.println(b);
 }
 
 }
+}
+
 }
 
 a = 25.6;
-t1 = "oi";
 a = a+b;
 a = a-b;
 a = a*b;
