@@ -22,11 +22,11 @@ if (((a+1)+2)>b) {
 if (a<b) {
 	System.out.println(t1);
 }
-while (t1!="CARLOS") {
+while (t1!=t1+t1) {
 	b = a+2;	
 if (b<30) {
 	a = 3;	
-if (t1==t1) {
+if (t1==(t1+t1)) {
 	b = b;
 } else {
 	b = b+199;

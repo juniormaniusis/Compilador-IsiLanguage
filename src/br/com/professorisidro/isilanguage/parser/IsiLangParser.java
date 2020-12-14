@@ -1347,7 +1347,10 @@ public class IsiLangParser extends Parser {
 				{
 				setState(192);
 				match(OPSUM);
-				_exprContent += '+';
+
+									_exprContent += '+';
+									
+								  
 				setState(194);
 				termo();
 				setState(195);
@@ -1359,6 +1362,8 @@ public class IsiLangParser extends Parser {
 				setState(197);
 				match(OPSUB);
 				_exprContent += '-';
+								  expressionTypeList.add("NUMBER");
+								  
 				setState(199);
 				termo();
 				setState(200);
@@ -1422,6 +1427,8 @@ public class IsiLangParser extends Parser {
 				setState(204);
 				match(OPMUL);
 				_exprContent += '*';
+									expressionTypeList.add("NUMBER");
+								  
 				setState(206);
 				fator();
 				setState(207);
@@ -1432,7 +1439,10 @@ public class IsiLangParser extends Parser {
 				{
 				setState(209);
 				match(OPDIV);
-				_exprContent += '/';
+
+								_exprContent += '/';
+								expressionTypeList.add("NUMBER");
+								  
 				setState(211);
 				fator();
 				setState(212);

@@ -347,14 +347,24 @@ cmdselecao  :  'se' AP {
 expr : termo expr_;
 termo : fator termo_;
 expr_ : (
-			OPSUM {_exprContent += '+';} termo expr_ 
-		|	OPSUB {_exprContent += '-';} termo expr_
+			OPSUM {
+					_exprContent += '+';
+					
+				  } termo expr_ 
+		|	OPSUB {_exprContent += '-';
+				  expressionTypeList.add("NUMBER");
+				  } termo expr_
 		)?
 		;
 
 termo_ : (
-			OPMUL {_exprContent += '*';} fator termo_ 
-		| 	OPDIV {_exprContent += '/';} fator termo_
+			OPMUL {_exprContent += '*';
+					expressionTypeList.add("NUMBER");
+				  } fator termo_ 
+		| 	OPDIV {
+				_exprContent += '/';
+				expressionTypeList.add("NUMBER");
+				  } fator termo_
 		)?;
 
 
