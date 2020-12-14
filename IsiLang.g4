@@ -320,19 +320,6 @@ cmdselecao  :  'se' AP {
                    )?
             ;
 			
-// expr		:	expr 
-// 				OPSUM { _exprContent += _input.LT(-1).getText();}
-// 				termo
-// 			|	expr
-// 			 	OPSUB { _exprContent += _input.LT(-1).getText();}
-// 				termo
-// 			| 	termo
-// 			;
-
-// termo		: termo OPMUL { _exprContent += _input.LT(-1).getText();} fator
-// 			| termo OPDIV { _exprContent += _input.LT(-1).getText();} fator
-// 			| fator;
-
 expr : termo expr_;
 termo : fator termo_;
 expr_ : (
