@@ -12,11 +12,17 @@ public class MessagesHelper {
     private static final String ANSI_WHITE = "\u001B[37m";
 
 
-    static void printGreen(String msg) {
+    static void success(String msg) {
         System.out.println(ANSI_GREEN + msg + ANSI_RESET);
     }
-    static void printYellow(String msg) {
+    static void warning(String msg) {
         System.out.println(ANSI_YELLOW + msg + ANSI_RESET);
+    }
+    static void info(String msg) {
+        System.out.println(ANSI_CYAN  + msg + ANSI_RESET);
+    }
+    static void error(String msg) {
+        System.out.println(ANSI_RED  + msg + ANSI_RESET);
     }
     
 }

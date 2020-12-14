@@ -98,7 +98,7 @@ grammar IsiLang;
 	}
 }
 
-prog	: 'programa' decl bloco  'fimprog.'
+prog	: 'programa' ((decl bloco)| bloco)?  'fimprog.'
            {  program.setVarTable(symbolTable);
            	  program.setComandos(stack.pop());
            	 

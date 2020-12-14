@@ -1,5 +1,7 @@
 package br.com.professorisidro.isilanguage.main;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 
 import org.antlr.v4.runtime.CharStreams;
@@ -18,11 +20,17 @@ import br.com.professorisidro.isilanguage.parser.IsiLangParser;
 public class MainClass {
 	public static void main(String[] args) {
 		try {
+			Instant start = Instant.now();
+
 			IsiLangLexer lexer;
 			IsiLangParser parser;
 			
+			String fileName = "input.isi";
+			if (args.length > 0) {
+				fileName = args[0];
+			}
 			// leio o arquivo "input.isi" e isso é entrada para o Analisador Lexico
-			lexer = new IsiLangLexer(CharStreams.fromFileName("input.isi"));
+			lexer = new IsiLangLexer(CharStreams.fromFileName(fileName));
 			
 			// crio um "fluxo de tokens" para passar para o PARSER
 			CommonTokenStream tokenStream = new CommonTokenStream(lexer);
@@ -36,18 +44,21 @@ public class MainClass {
 			if (warnings.size() > 0) {
 				System.out.println(repeatChar('#', 34) + " WARNINGS  " + repeatChar('#', 34));
 				for (String warning : warnings) {
-					MessagesHelper.printYellow(warning);
+					MessagesHelper.warning(warning);
 				}
 				System.out.println(repeatChar('#', 80));
 			}
 			
-			MessagesHelper.printGreen("Compilation Successful");
+			MessagesHelper.success("IsiCompilado com Sucesso");
 			
 			
-			parser.exibeComandos();
+			//parser.exibeComandos();
 			
 			parser.generateCode();
 			
+			Instant end = Instant.now();			
+			MessagesHelper.info("tempo decorrido: " + Duration.between(start, end).toMillis() + "ms");
+
 		}
 		catch(IsiSemanticException ex) {
 			System.err.println("Semantic error - "+ex.getMessage());
