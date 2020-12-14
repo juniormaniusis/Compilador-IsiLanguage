@@ -713,7 +713,11 @@ public class IsiLangParser extends Parser {
 
 
 							   	String operador = _input.LT(-1).getText();
-								_exprContent += _exprID + operador;
+									System.out.println("LI asdasdas O OPERADOR " + operador);
+								if (operador.equals("+") || operador.equals("-") || operador.equals("*") || operador.equals("/")) {
+									System.out.println("Entrei no IF");
+									_exprContent += _exprID + operador;
+								}
 						   	
 			setState(105);
 			match(ATTR);

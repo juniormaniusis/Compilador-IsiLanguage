@@ -7,9 +7,9 @@ double  b;
 String  t1;
 a= _key.nextDouble();
 b= _key.nextDouble();
-a = aa1+2*3/b;
-a = aa0;
-a = aaa+1;
+a = 1+2*3/b;
+a = 0;
+a = a+1;
 a= _key.nextDouble();
 
 if (((a+1)+2)>b) {
@@ -23,19 +23,19 @@ if (a<b) {
 	System.out.println(t1);
 }
 while (a!=3) {
-	b = bba+2;	
+	b = a+2;	
 if (b<30) {
-	a = aa3;	
+	a = 3;	
 if (t1==22) {
-	b = bbb;
+	b = b;
 } else {
-	b = bbb+199;
+	b = b+199;
 }
 
 }
 }
 
-a = aa25.6;
+a = 25.6;
 t1 = "oi";
 a = a+b;
 a = a-b;
@@ -43,6 +43,6 @@ a = a*b;
 a = a/b;
 
 if (t1==t1) {
-	System.out.println(""carlos"");
+	System.out.println("carlos");
 }
   }}
