@@ -129,7 +129,7 @@ public class IsiLangLexer extends Lexer {
 			String primeiroTipo = listTypes.get(0);
 			for (String tipo: listTypes) {
 				if (tipo != primeiroTipo) {
-					throw new IsiSemanticException("Elementos do lado " + lado + "possuem tipos incompativeis\n\t na expressao " + expressao);
+					throw new IsiSemanticException("Elementos do lado " + lado + " possuem tipos incompativeis\n\t na expressao " + expressao);
 				}
 			}
 			return primeiroTipo;

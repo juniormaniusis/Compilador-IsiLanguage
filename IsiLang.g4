@@ -52,7 +52,7 @@ grammar IsiLang;
 		String primeiroTipo = listTypes.get(0);
 		for (String tipo: listTypes) {
 			if (tipo != primeiroTipo) {
-				throw new IsiSemanticException("Elementos do lado " + lado + "possuem tipos incompativeis\n\t na expressao " + expressao);
+				throw new IsiSemanticException("Elementos do lado " + lado + " possuem tipos incompativeis\n\t na expressao " + expressao);
 			}
 		}
 		return primeiroTipo;
@@ -286,6 +286,7 @@ cmdselecao  :  'se' AP {
 					}
 					expr {
 							stackExprDecision.push(_exprContent);
+							_leftType = verifyTypesAndGetTypeIfValid(expressionTypeList, "esquerdo", _exprContent);
 					}
 					OPREL { 
 							String op = _input.LT(-1).getText();
@@ -298,9 +299,15 @@ cmdselecao  :  'se' AP {
 							atual = stackExprDecision.pop();
 							novo = atual + _exprContent;
 							stackExprDecision.push(novo);
-							resetExpr();
+							_rightType = verifyTypesAndGetTypeIfValid(expressionTypeList, "direito", novo);
 					}
-                    FP
+                    FP {
+						if (_rightType != _leftType) { 
+							throw new IsiSemanticException("Tipos não comparáveis");
+						}
+						_rightType = "";
+						_leftType ="";
+					}
 					ACH { 
 						// cria uma lista de comandos
 						curThread = new ArrayList<AbstractCommand>(); 
