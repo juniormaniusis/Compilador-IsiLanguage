@@ -25,7 +25,7 @@ programa
       escreva(t1).
    }
 
-   enquanto (t1 != t1) {
+   enquanto (a != "CARLOS") {
       b := a + 2.
       se (b < 30) {
          a := 3.

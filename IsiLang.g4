@@ -370,6 +370,10 @@ fator		:	NUMBER {
 					_exprContent += _input.LT(-1).getText();
 					expressionTypeList.add("NUMBER");
 			}
+			|	STRING {
+					_exprContent += _input.LT(-1).getText();
+					expressionTypeList.add("TEXT");
+			}
 			|	ID { 	String id = _input.LT(-1).getText();
 						verificaID(id);
 						String type = getTypeById(id);
