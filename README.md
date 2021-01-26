@@ -4,7 +4,7 @@ Fork do projeto inicial do projeto de compiladores do professor Isidro.
 
 Implementamos um compilador usando Java + ANTLR4 capaz de compilar a IsiLanguage (Uma linguagem com gramática definida pelo professor) em Java.
 
-[YouTube] (https://www.youtube.com/watch?v=CPrPTaqif98&feature=youtu.be) - Apresentação do Projeto
+[YouTube](https://www.youtube.com/watch?v=CPrPTaqif98&feature=youtu.be) - Apresentação do Projeto
 
 Além da gramática básica proposta pelo professor, incrementamos a linguagem trazendo novas possibilidades
 - Laços de repetição.
@@ -17,11 +17,8 @@ Além da gramática básica proposta pelo professor, incrementamos a linguagem t
 - Análise semântica de aplicação de operadores.
 
 A gramática dada pelo professor não estava em LL(1). desta forma, fizemos algumas adaptações para que fossem eliminadas as recursões a esquerda.
-
-
-A gramática base da IsiLanguage
-Observe o conjunto de regras gramaticais da IsiLanguage
-abaixo:
+# Gramática base da IsiLanguage
+``` 
 Prog —> programa Declara Bloco
  fimprog.
 Declara —> declare Id (, Id)* .
@@ -45,3 +42,4 @@ Texto —> “(0..9 | a..z | A..Z | ‘ ‘)+ ”
 Num —> (0..9)+
 Id —> (a..z | A..Z)
  (a..z | A..Z | 0..9)* 
+ ```
